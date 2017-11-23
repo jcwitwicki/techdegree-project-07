@@ -15,6 +15,7 @@ import javax.sql.DataSource;
 @Configuration
 @PropertySource("app.properties")
 public class DataConfig {
+
     @Autowired
     private Environment environment;
 
