@@ -3,9 +3,11 @@ package com.teamtreehouse.instateam.service;
 import com.teamtreehouse.instateam.dao.ProjectDao;
 import com.teamtreehouse.instateam.model.Project;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class ProjectServiceImpl implements ProjectService {
 
     @Autowired
