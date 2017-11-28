@@ -18,16 +18,7 @@ public class CollaboratorDaoImpl implements CollaboratorDao {
     public void save(Collaborator collaborator) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-        session.save(collaborator);
-        session.getTransaction().commit();
-        session.close();
-    }
-
-    @Override
-    public void update(Collaborator collaborator) {
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
-        session.update(collaborator);
+        session.saveOrUpdate(collaborator);
         session.getTransaction().commit();
         session.close();
     }
