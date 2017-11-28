@@ -18,16 +18,7 @@ public class RoleDaoImpl implements RoleDao {
     public void save(Role role) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-        session.save(role);
-        session.getTransaction().commit();
-        session.close();
-    }
-
-    @Override
-    public void update(Role role) {
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
-        session.update(role);
+        session.saveOrUpdate(role);
         session.getTransaction().commit();
         session.close();
     }
