@@ -20,11 +20,6 @@ public class CollaboratorServiceImpl implements CollaboratorService {
     }
 
     @Override
-    public void update(Collaborator collaborator) {
-        collaboratorDao.update(collaborator);
-    }
-
-    @Override
     public void delete(Collaborator collaborator) {
         collaboratorDao.delete(collaborator);
     }
