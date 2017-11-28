@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8"/>
     <meta http-equiv="x-ua-compatible" content="ie=edge"/>
@@ -20,20 +20,16 @@
 </header>
 <nav>
     <ul>
-        <li class="selected"><a th:href="@{/index}">Projects</a></li>
-        <li><a th:href="@{/collaborators}">Collaborators</a></li>
-        <li><a th:href="@{/roles}">Roles</a></li>
+        <li class="selected"><a href="index.html">Projects</a></li>
+        <li><a href="collaborators.html">Collaborators</a></li>
+        <li><a href="roles.html">Roles</a></li>
     </ul>
 </nav>
 <section>
     <div class="container wrapper">
-        <div class="project-list">
-            <div th:each="project : ${projects}" class="project">
-                <h2><a th:href="@{|/index/${project.id}|}" th:text="${project.name}">Website Project</a></h2>
-                <p th:text="${project.description}" ></p>
-                <span class="tag active" th:text="${project.status}" ></span>
-            </div>
-        </div>
+        <form>
+            <a>test</a>
+        </form>
     </div>
 </section>
 </body>

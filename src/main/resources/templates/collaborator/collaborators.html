@@ -1,30 +1,24 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <meta charset="utf-8"/>
-        <meta http-equiv="x-ua-compatible" content="ie=edge"/>
-        <title>InstaTeam</title>
-        <link href='https://fonts.googleapis.com/css?family=Inconsolata:400,700' rel='stylesheet' type='text/css'/>
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
-        <link rel="stylesheet" href="css/normalize.css"/>
-        <link rel="stylesheet" href="css/site.css"/>
-    </head>
+    <head th:replace="layout :: head('collaborators')"></head>
     <body>
-        <header>
-            <div class="container">
-                <div class="site-header">
-                    <a class="logo" href="index.html">InstaTeam</a>
-                    <a class="new-project button icon-left" href="#"><i class="material-icons">add</i> New Project</a>
-                </div>
-            </div>
-        </header>
-        <nav>
-            <ul>
-                <li><a href="index.html">Projects</a></li>
-                <li class="selected"><a href="collaborators.html">Collaborators</a></li>
-                <li><a href="roles.html">Roles</a></li>
-            </ul>
-        </nav>
+        <div th:replace="layout :: header"></div>
+        <div th:replace="layout :: nav"></div>
+        <!--<header>-->
+            <!--<div class="container">-->
+                <!--<div class="site-header">-->
+                    <!--<a class="logo" href="index.html">InstaTeam</a>-->
+                    <!--<a class="new-project button icon-left" href="#"><i class="material-icons">add</i> New Project</a>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</header>-->
+        <!--<nav>-->
+            <!--<ul>-->
+                <!--<li><a href="index.html">Projects</a></li>-->
+                <!--<li class="selected"><a href="collaborators.html">Collaborators</a></li>-->
+                <!--<li><a href="roles.html">Roles</a></li>-->
+            <!--</ul>-->
+        <!--</nav>-->
         <section>
             <div class="container wrapper">
                 <form th:action="@{/collaborators}" method="post" th:object="${collaborator}">
@@ -32,30 +26,38 @@
                     <ul class="checkbox-list">
                         <div th:each="collaborator : ${collaborators}">
                         <li>
-                            <span class="primary" th:text="${collaborator.name}"></span>
+                            <span class="primary">
+                                <a th:href="@{|/collaborators/${collaborator.id}/edit|}" th:text="${collaborator.name}"></a>
+                            </span>
                             <div class="custom-select">
                                 <span class="dropdown-arrow"></span>
                                 <select>
-                                    <option th:each="role : ${roles}" th:value="${role.id}" th:text="${role.name}"></option>
+                                    <option th:text="${collaborator.role.name}"></option>
+                                    <option th:if="${!role.name.equals(collaborator.role.name)}"
+                                            th:each="role : ${roles}"
+                                            th:value="${role.id}"
+                                            th:text="${role.name}">
+                                    </option>
                                 </select>
                             </div>
                         </li>
                         </div>
                     </ul>
                     <div class="actions add-new-collaborator">
-                        <input type="text" placeholder="Name..."/>
+                        <input type="hidden" th:field="*{id}"/>
+                        <input type="text" th:field="*{name}" placeholder="Name..."/>
                         <div class="custom-select">
                             <span class="dropdown-arrow"></span>
-                            <select>
+                            <select th:field="*{role.id}">
                                 <option value="#">Role...</option>
-                                <option value="#">Developer</option>
-                                <option value="#">Designer</option>
-                                <option value="#">QA</option>
-                                <option value="#">DevOps</option>
-                                <option value="#">Copywriter</option>
+                                <option th:each="role : ${roles}"
+                                        th:value="${role.id}"
+                                        th:text="${role.name}">
+                                </option>
+
                             </select>
                         </div>
-                        <a class="button" href="#">Add</a>
+                        <button type="submit" class="button">Add</button>
                     </div>
                 </form>
             </div>
