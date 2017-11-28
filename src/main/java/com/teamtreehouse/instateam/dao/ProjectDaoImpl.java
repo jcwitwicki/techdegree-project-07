@@ -19,16 +19,7 @@ public class ProjectDaoImpl implements ProjectDao {
     public void save(Project project) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-        session.save(project);
-        session.getTransaction().commit();
-        session.close();
-    }
-
-    @Override
-    public void update(Project project) {
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
-        session.update(project);
+        session.saveOrUpdate(project);
         session.getTransaction().commit();
         session.close();
     }
