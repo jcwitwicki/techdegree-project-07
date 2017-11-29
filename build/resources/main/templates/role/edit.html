@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout :: head('collaborators')"></head>
+<body>
+<div th:replace="layout :: header"></div>
+<div th:replace="layout :: nav"></div>
+<section>
+    <div class="container wrapper">
+        <form th:action="@{${action}}" method="post" th:object="${role}" enctype="multipart/form-data">
+            <input type="hidden" th:field="*{id}"/>
+            <div>
+                <label> Role:</label>
+                <input type="text" th:field="*{name}"/>
+            </div>
+            <div class="actions">
+                <button type="submit" class="button">Update</button>
+                <a href="@{/collaborators}" class="button button-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</section>
+</body>
+</html>

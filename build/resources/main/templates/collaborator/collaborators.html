@@ -1,24 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-    <head th:replace="layout :: head('collaborators')"></head>
-    <body>
-        <div th:replace="layout :: header"></div>
-        <div th:replace="layout :: nav"></div>
-        <!--<header>-->
-            <!--<div class="container">-->
-                <!--<div class="site-header">-->
-                    <!--<a class="logo" href="index.html">InstaTeam</a>-->
-                    <!--<a class="new-project button icon-left" href="#"><i class="material-icons">add</i> New Project</a>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</header>-->
-        <!--<nav>-->
-            <!--<ul>-->
-                <!--<li><a href="index.html">Projects</a></li>-->
-                <!--<li class="selected"><a href="collaborators.html">Collaborators</a></li>-->
-                <!--<li><a href="roles.html">Roles</a></li>-->
-            <!--</ul>-->
-        <!--</nav>-->
+<head th:replace="layout :: head('Collaborators')"></head>
+<body>
+<div th:replace="layout :: header"></div>
+<div th:replace="layout :: nav"></div>
         <section>
             <div class="container wrapper">
                 <form th:action="@{/collaborators}" method="post" th:object="${collaborator}">
@@ -27,7 +12,7 @@
                         <div th:each="collaborator : ${collaborators}">
                         <li>
                             <span class="primary">
-                                <a th:href="@{|/collaborators/${collaborator.id}/edit|}" th:text="${collaborator.name}"></a>
+                                <a th:href="@{|/collaborators/${collaborator.id}|}" th:text="${collaborator.name}"></a>
                             </span>
                             <div class="custom-select">
                                 <span class="dropdown-arrow"></span>
@@ -54,7 +39,6 @@
                                         th:value="${role.id}"
                                         th:text="${role.name}">
                                 </option>
-
                             </select>
                         </div>
                         <button type="submit" class="button">Add</button>
