@@ -3,6 +3,7 @@ package com.teamtreehouse.instateam.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,17 +15,25 @@ public class Project {
     private Long id;
 
     @NotNull
+    @Size(min = 1, max = 26)
     private String name;
 
     @NotNull
+    @Size(min = 3, max = 1024)
     private String description;
 
     private String status;
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.ALL})
+    @JoinTable(name = "PROJECT_ROLE",
+            joinColumns = {@JoinColumn(name = "ROLESNEEDED_ID")},
+            inverseJoinColumns = {@JoinColumn(name = "PROJECT_ID")})
     private List<Role> rolesNeeded = new ArrayList<>();
 
     @ManyToMany
+    @JoinTable(name = "PROJECT_COLLABORATOR",
+            joinColumns = {@JoinColumn(name = "COLLABORATORS_ID")},
+            inverseJoinColumns = {@JoinColumn(name = "PROJECT_ID")})
     private List<Collaborator> collaborators = new ArrayList<>();
 
     public Project() {
