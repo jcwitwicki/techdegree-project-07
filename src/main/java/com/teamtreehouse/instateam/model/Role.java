@@ -4,7 +4,6 @@ package com.teamtreehouse.instateam.model;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -18,8 +17,8 @@ public class Role {
     @Size(min = 1, max = 15)
     private String name;
 
-    @OneToMany(mappedBy = "role")
-    private List<Collaborator> collaborators = new ArrayList<>();
+    @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
+    private List<Collaborator> collaborators;
 
     public Role() {
     }
