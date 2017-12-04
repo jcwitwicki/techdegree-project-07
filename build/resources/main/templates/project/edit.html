@@ -22,8 +22,6 @@
                     <span class="dropdown-arrow"></span>
                     <select th:field="*{status}" name="project_status">
                         <option th:each="status : ${statuses}" th:value="${status.name}" th:tex="${status.name}"></option>
-                        <!--<option value="archived">Archived</option>-->
-                        <!--<option value="not_started">Not Started</option>-->
                     </select>
                 </div>
             </div>

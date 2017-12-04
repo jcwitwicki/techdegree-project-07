@@ -27,18 +27,25 @@
             </div>
             <div>
                 <label>Project Roles:</label>
-                <ul class="checkbox-list">
+                <ul class="checkbox-list" >
                     <div th:each="role : ${roles}">
                         <li>
-                            <input type="checkbox" th:field="*{rolesNeeded}" th:value="|${role.name}|"/>
-                            <span class="primary" th:text="${role.name}"></span>
+                            <input type="checkbox" th:field="*{rolesNeeded}" th:value="${role.id}"/>
+                            <input type="hidden" th:field="*{id}"/>
+                            <span class="primary" th:text="${role.name}">Role</span>
                         </li>
+                        <!--<div th:each="role,stat : ${roles}">-->
+                        <!--<li>-->
+                            <!--<input type="checkbox" th:field="*{rolesNeeded[__${stat.index}__].id}" th:value="${role.id}"/>-->
+                            <!--<input type="hidden" th:field="*{rolesNeeded[__${stat.index}__].name}" th:value="${role.name}"/>-->
+                            <!--<span class="primary" th:text="${role.name}"></span>-->
+                        <!--</li>-->
                     </div>
                 </ul>
             </div>
             <div class="actions">
-                <button type="submit" class="button">Add</button>
-                <a href="@{/projects}" class="button button-secondary">Cancel</a>
+                <button type="submit" th:value="${submit}" class="button">Add</button>
+                <a th:href="@{/projects}" class="button button-secondary">Cancel</a>
             </div>
         </form>
     </div>
