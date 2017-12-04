@@ -2,6 +2,7 @@ package com.teamtreehouse.instateam.service;
 
 import com.teamtreehouse.instateam.dao.ProjectDao;
 import com.teamtreehouse.instateam.model.Project;
+import com.teamtreehouse.instateam.model.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,5 +32,11 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public Project findById(Long id) {
         return projectDao.findById(id);
+    }
+
+    @Override
+    public List<Role> FindRolesNeeded(Project project) {
+        List<Role> rolesNeeded = project.getRolesNeeded();
+        return rolesNeeded;
     }
 }
