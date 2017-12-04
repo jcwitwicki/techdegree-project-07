@@ -3,7 +3,8 @@ package com.teamtreehouse.instateam.web;
 public enum Status {
     ACTIVE("Active"),
     ARCHIVED("Archived"),
-    NOT_STARTED("Not Started");
+    NOT_STARTED("Not Started"),
+    TESTING("Testing");
 
     private final String name;
 
