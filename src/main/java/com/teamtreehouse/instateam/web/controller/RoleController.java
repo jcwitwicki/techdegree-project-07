@@ -32,21 +32,21 @@ public class RoleController {
 
     @RequestMapping(value = "/roles", method = RequestMethod.POST)
     public String addRole(@Valid Role role, BindingResult result, RedirectAttributes redirectAttributes) {
-        if (result.hasErrors()) {
-//            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.category", result);
-            redirectAttributes.addFlashAttribute("role", role);
-            return "redirect:/roles";
-        }
+//        if (result.hasErrors()) {
+////            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.category", result);
+//            redirectAttributes.addFlashAttribute("role", role);
+//            return "redirect:/roles";
+//        }
         roleService.save(role);
         return "redirect:/roles";
     }
 
-    @RequestMapping("/roles/{roleId}")
-    public String formEditRole (@PathVariable Long roleId, Model model) {
+    @RequestMapping("/roles/{id}")
+    public String formEditRole (@PathVariable Long id, Model model) {
         if (!model.containsAttribute("role")) {
-            model.addAttribute("role", roleService.findById(roleId));
+            model.addAttribute("role", roleService.findById(id));
         }
-        model.addAttribute("action", String.format("/roles/%s",roleId));
+        model.addAttribute("action", String.format("/roles/%s",id));
         return "role/edit";
     }
 
@@ -54,6 +54,10 @@ public class RoleController {
     public String updateRole (Role role) {
         roleService.save(role);
         return "redirect:/roles";
+    }
+
+    public String deleteRole() {
+        return null;
     }
 
 }
