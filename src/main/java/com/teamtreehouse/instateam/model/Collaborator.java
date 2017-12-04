@@ -16,7 +16,7 @@ public class Collaborator {
     private String name;
 
     @NotNull
-    @ManyToOne
+    @ManyToOne (cascade = {CascadeType.ALL})
     private Role role;
 
     public Collaborator() {
