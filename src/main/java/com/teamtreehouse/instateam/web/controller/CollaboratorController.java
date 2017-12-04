@@ -35,13 +35,13 @@ public class CollaboratorController {
         return "collaborator/collaborators";
     }
 
-    @RequestMapping("collaborators/{collaboratorId}")
-    public String formEditCollaborator(@PathVariable Long collaboratorId, Model model) {
+    @RequestMapping("/collaborators/{id}")
+    public String formEditCollaborator(@PathVariable Long id, Model model) {
         if (!model.containsAttribute("collaborator")) {
-            model.addAttribute("collaborator", collaboratorService.findById(collaboratorId));
+            model.addAttribute("collaborator", collaboratorService.findById(id));
         }
         model.addAttribute("roles", roleService.findAll());
-        model.addAttribute("action", String.format("/collaborators/%s",collaboratorId));
+        model.addAttribute("action", String.format("/collaborators/%s",id));
         return "collaborator/edit";
     }
 
@@ -55,12 +55,14 @@ public class CollaboratorController {
         return "redirect:/collaborators";
     }
 
-    @RequestMapping(value = "/collaborators/{collaboratorId}", method = RequestMethod.POST)
+    @RequestMapping(value = "/collaborators/{id}", method = RequestMethod.POST)
     public String updateCollaborator (Collaborator collaborator) {
         collaboratorService.save(collaborator);
         return "redirect:/collaborators";
     }
 
-
+    public String deleteCollaborator() {
+        return null;
+    }
 
 }
