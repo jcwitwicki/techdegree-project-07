@@ -6,7 +6,7 @@
 <div th:replace="layout :: nav"></div>
 <section>
     <div class="container wrapper">
-        <form th:action="@{/projects}" method="post" th:object="${project}" enctype="multipart/form-data">
+        <form th:action="@{/projects}" method="post" th:object="${project}" >
             <input type="hidden" th:field="*{id}"/>
             <div>
                 <label> Project Name:</label>
@@ -25,6 +25,19 @@
                     </select>
                 </div>
             </div>
+            <!--<div class="actions add-new-collaborator">-->
+                <!--<div class="custom-select">-->
+                    <!--<span class="dropdown-arrow"></span>-->
+                    <!--<select th:field="*{rolesNeeded}">-->
+                        <!--<option value="#">Role...</option>-->
+                        <!--<option th:each="role : ${roles}"-->
+                                <!--th:value="${role.id}"-->
+                                <!--th:text="${role.name}">-->
+                            <!--&lt;!&ndash;<input type="hidden" th:field="*{role.id}" th:value="${role.id}"/>&ndash;&gt;-->
+                        <!--</option>-->
+                    <!--</select>-->
+                <!--</div>-->
+            <!--</div>-->
             <div>
                 <label>Project Roles:</label>
                 <ul class="checkbox-list" >
