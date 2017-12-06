@@ -47,10 +47,10 @@ public class CollaboratorController {
 
     @RequestMapping(value = "/collaborators", method = RequestMethod.POST)
     public String addCollaborator (@Valid Collaborator collaborator, BindingResult result, RedirectAttributes redirectAttributes) {
-        if (result.hasErrors()) {
-            redirectAttributes.addFlashAttribute("collaborator", collaborator);
-            return "redirect:/collaborators";
-        }
+//        if (result.hasErrors()) {
+//            redirectAttributes.addFlashAttribute("collaborator", collaborator);
+//            return "redirect:/collaborators";
+//        }
         collaboratorService.save(collaborator);
         return "redirect:/collaborators";
     }

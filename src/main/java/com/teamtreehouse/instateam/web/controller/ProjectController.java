@@ -58,7 +58,6 @@ public class ProjectController {
 
     @RequestMapping(value = "/projects", method = RequestMethod.POST)
     public String addProject(Project project, BindingResult result, RedirectAttributes redirectAttributes) {
-
 //        if (result.hasErrors()) {
 //            redirectAttributes
 //                    .addFlashAttribute("org.springframework.validation.BindingResult.project", result);
