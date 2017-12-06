@@ -15,12 +15,11 @@ import javax.sql.DataSource;
 @Configuration
 @PropertySource("app.properties")
 public class DataConfig {
-
     @Autowired
     private Environment environment;
 
     @Bean
-    public LocalSessionFactoryBean sessionFactory() {
+    public LocalSessionFactoryBean sessionFactory(){
         Resource config = new ClassPathResource("hibernate.cfg.xml");
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setConfigLocation(config);
@@ -31,13 +30,11 @@ public class DataConfig {
 
     @Bean
     public DataSource dataSource() {
-        BasicDataSource dataSource = new BasicDataSource();
-
-        dataSource.setDriverClassName(environment.getProperty("instateam.db.driver"));
-        dataSource.setUrl(environment.getProperty("instateam.db.url"));
-        dataSource.setUsername(environment.getProperty("instateam.db.username"));
-        dataSource.setPassword(environment.getProperty("instateam.db.password"));
-
-        return dataSource;
+        BasicDataSource ds = new BasicDataSource();
+        ds.setDriverClassName(environment.getProperty("instateam.db.driver"));
+        ds.setUrl(environment.getProperty("instateam.db.url"));
+        ds.setUsername(environment.getProperty("instateam.db.username"));
+        ds.setPassword(environment.getProperty("instateam.db.password"));
+        return ds;
     }
 }
