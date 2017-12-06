@@ -3,7 +3,6 @@ package com.teamtreehouse.instateam.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.util.List;
 
 @Entity
@@ -14,7 +13,7 @@ public class Role {
     private Long id;
 
     @NotNull
-    @Size(min = 1, max = 15)
+//    @Size(min = 1, max = 15)
     private String name;
 
     @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
