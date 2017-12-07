@@ -35,7 +35,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public List<Role> FindRolesNeeded(Project project) {
+    public List<Role> findRolesNeeded(Project project) {
         List<Role> rolesNeeded = project.getRolesNeeded();
         return rolesNeeded;
     }
