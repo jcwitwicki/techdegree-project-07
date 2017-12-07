@@ -11,5 +11,5 @@ public interface ProjectService {
     void delete(Project project);
     List<Project> findAll();
     Project findById(Long id);
-    List<Role> FindRolesNeeded(Project project);
+    List<Role> findRolesNeeded(Project project);
 }
