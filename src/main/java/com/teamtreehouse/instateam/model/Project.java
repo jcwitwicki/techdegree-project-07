@@ -24,19 +24,10 @@ public class Project {
     private String status;
 
     @ManyToMany(cascade = {CascadeType.ALL})
-    @JoinTable(name = "PROJECT_ROLE",
-            joinColumns = {@JoinColumn(name = "ROLESNEEDED_ID")},
-            inverseJoinColumns = {@JoinColumn(name = "PROJECT_ID")})
     private List<Role> rolesNeeded = new ArrayList<>();
 
     @ManyToMany
-    @JoinTable(name = "PROJECT_COLLABORATOR",
-            joinColumns = {@JoinColumn(name = "COLLABORATORS_ID")},
-            inverseJoinColumns = {@JoinColumn(name = "PROJECT_ID")})
     private List<Collaborator> collaborators = new ArrayList<>();
-
-    public Project() {
-    }
 
     public Long getId() {
         return id;
@@ -54,9 +45,7 @@ public class Project {
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
-    }
+    public String getDescription() { return description; }
 
     public void setDescription(String description) {
         this.description = description;
@@ -70,13 +59,9 @@ public class Project {
         this.status = status;
     }
 
-    public List<Role> getRolesNeeded() {
-        return rolesNeeded;
-    }
+    public List<Role> getRolesNeeded() { return rolesNeeded; }
 
-    public void setRolesNeeded(List<Role> rolesNeeded) {
-        this.rolesNeeded = rolesNeeded;
-    }
+    public void setRolesNeeded(List<Role> rolesNeeded) { this.rolesNeeded = rolesNeeded; }
 
     public List<Collaborator> getCollaborators() {
         return collaborators;
@@ -85,4 +70,6 @@ public class Project {
     public void setCollaborators(List<Collaborator> collaborators) {
         this.collaborators = collaborators;
     }
+
+
 }

@@ -6,7 +6,7 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
-public class Role {
+public class Role implements Comparable<Role> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,4 +45,10 @@ public class Role {
     public void setCollaborators(List<Collaborator> collaborators) {
         this.collaborators = collaborators;
     }
+
+    @Override
+    public int compareTo(Role o) {
+        return name.compareToIgnoreCase(o.getName());
+    }
+
 }

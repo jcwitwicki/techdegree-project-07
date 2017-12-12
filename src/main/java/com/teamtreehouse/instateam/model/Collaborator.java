@@ -4,7 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
-public class Collaborator {
+public class Collaborator implements Comparable<Collaborator> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,4 +43,10 @@ public class Collaborator {
     public void setRole(Role role) {
         this.role = role;
     }
+
+    @Override
+    public int compareTo(Collaborator o) {
+        return name.compareToIgnoreCase(o.getName());
+    }
+
 }
