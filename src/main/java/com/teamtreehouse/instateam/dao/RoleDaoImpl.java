@@ -6,6 +6,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collections;
 import java.util.List;
 
 @Repository
@@ -37,6 +38,7 @@ public class RoleDaoImpl implements RoleDao {
     public List<Role> findAll() {
         Session session = sessionFactory.openSession();
         List<Role> roles = session.createCriteria(Role.class).list();
+        Collections.sort(roles);
         session.close();
         return roles;
     }

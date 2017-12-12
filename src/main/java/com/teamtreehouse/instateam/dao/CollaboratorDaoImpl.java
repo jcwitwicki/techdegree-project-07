@@ -6,6 +6,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collections;
 import java.util.List;
 
 @Repository
@@ -37,6 +38,7 @@ public class CollaboratorDaoImpl implements CollaboratorDao {
     public List<Collaborator> findAll() {
         Session session = sessionFactory.openSession();
         List<Collaborator> collaborators = session.createCriteria(Collaborator.class).list();
+        Collections.sort(collaborators);
         session.close();
         return collaborators;
     }
