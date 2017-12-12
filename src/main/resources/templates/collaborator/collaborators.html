@@ -14,19 +14,7 @@
                             <span class="primary">
                                 <a th:href="@{|/collaborators/${collaborator.id}|}" th:text="${collaborator.name}"></a>
                             </span>
-                            <div class="custom-select">
-                                <span class="dropdown-arrow"></span>
-                                <select>
-                                    <!--<option value="#">Role...</option>-->
-                                    <option th:text="${collaborator.role.name}"></option>
-                                    <option
-                                            th:if="${!role.name.equals(collaborator.role.name)}"
-                                            th:each="role : ${roles}"
-                                            th:value="${role.id}"
-                                            th:text="${role.name}">
-                                    </option>
-                                </select>
-                            </div>
+                            <span class="secondary" th:text="${collaborator.role.name}" ></span>
                         </li>
                         </div>
                     </ul>
@@ -40,7 +28,6 @@
                                 <option th:each="role : ${roles}"
                                         th:value="${role.id}"
                                         th:text="${role.name}">
-                                    <!--<input type="hidden" th:field="*{role.id}" th:value="${role.id}"/>-->
                                 </option>
                             </select>
                         </div>

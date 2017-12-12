@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="layout :: head('collaborators')"></head>
+<head th:replace="layout :: head('New Project')"></head>
 <body>
 <div th:replace="layout :: header"></div>
 <div th:replace="layout :: nav"></div>
 <section>
     <div class="container wrapper">
-        <form th:action="@{/projects/{id}}" method="post" th:object="${project}" >
+        <form th:action="@{${action}}" method="post" th:object="${project}" >
             <input type="hidden" th:field="*{id}"/>
             <div>
                 <label> Project Name:</label>
@@ -27,22 +27,21 @@
             </div>
             <div>
                 <label>Project Roles:</label>
-                <ul class="checkbox-list">
+                <ul class="checkbox-list" >
                     <div th:each="role : ${roles}">
-                    <li>
-                        <input type="checkbox" th:field="*{rolesNeeded}" th:value="${role.id}"/>
-                        <span class="primary" th:text="${role.name}">Role</span>
-                    </li>
+                        <li>
+                            <input type="checkbox" th:field="*{rolesNeeded}" th:value="${role.id}" />
+                            <span class="primary" th:text="${role.name}">Role</span>
+                        </li>
                     </div>
                 </ul>
             </div>
             <div class="actions">
-                <button type="submit" class="button">Add</button>
-                <a href="@{/projects}" class="button button-secondary">Cancel</a>
+                <button th:text="${submit}" type="submit" class="button">Add</button>
+                <a th:href="@{/projects}" class="button button-secondary">Cancel</a>
             </div>
         </form>
     </div>
 </section>
 </body>
 </html>
-
