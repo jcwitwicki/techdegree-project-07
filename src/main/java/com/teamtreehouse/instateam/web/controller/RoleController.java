@@ -50,14 +50,10 @@ public class RoleController {
         return "role/edit";
     }
 
-    @RequestMapping(value = "/roles/{roleId}", method = RequestMethod.POST)
+    @RequestMapping(value = "/roles/{id}", method = RequestMethod.POST)
     public String updateRole (Role role) {
         roleService.save(role);
         return "redirect:/roles";
-    }
-
-    public String deleteRole() {
-        return null;
     }
 
 }

@@ -61,8 +61,4 @@ public class CollaboratorController {
         return "redirect:/collaborators";
     }
 
-    public String deleteCollaborator() {
-        return null;
-    }
-
 }

@@ -53,23 +53,20 @@ public class ProjectController {
         }
         model.addAttribute("roles", roleService.findAll());
         model.addAttribute("statuses", Status.values());
-        return "project/new";
+        model.addAttribute("action", "/projects");
+        model.addAttribute("submit", "Save");
+        return "project/form";
     }
 
-    @RequestMapping(value = "/projects/{id}", method = RequestMethod.POST)
-    public String addProject(Project project, BindingResult result, RedirectAttributes redirectAttributes) {
+    @RequestMapping(value = "/projects", method = RequestMethod.POST)
+    public String addProject( Project project, BindingResult result, RedirectAttributes redirectAttributes) {
+
 //        if (result.hasErrors()) {
 //            redirectAttributes
 //                    .addFlashAttribute("org.springframework.validation.BindingResult.project", result);
 //            redirectAttributes.addFlashAttribute("project", project);
 //            return "redirect:/projects/new";
 //        }
-//        project.setRolesNeeded(projectService.FindRolesNeeded(project));
-        System.out.println("/////////////////////////////////////");
-        project.setRolesNeeded(projectService.findRolesNeeded(project));
-        System.out.println("name: " + project.getName());
-        System.out.println("roles: " + project.getRolesNeeded());
-        System.out.println("/////////////////////////////////////");
         projectService.save(project);
         return "redirect:/projects";
     }
@@ -81,44 +78,21 @@ public class ProjectController {
         }
         model.addAttribute("roles", roleService.findAll());
         model.addAttribute("statuses", Status.values());
-        return "/project/edit";
+        model.addAttribute("action", String.format("/projects/%s/edit", id));
+        model.addAttribute("submit", "Update");
+        return "/project/form";
     }
 
     @RequestMapping(value = "/projects/{id}/edit", method = RequestMethod.POST)
-    public String updateProject(Project project, BindingResult result, RedirectAttributes redirectAttributes) {
+    public String updateProject( Project project, BindingResult result, RedirectAttributes redirectAttributes) {
         //        if (result.hasErrors()) {
 //            redirectAttributes
 //                    .addFlashAttribute("org.springframework.validation.BindingResult.project", result);
 //            redirectAttributes.addFlashAttribute("project", project);
 //            return "redirect:/projects/new";
 //        }
-        System.out.println("/////////////////////////////////////");
-        project.setRolesNeeded(projectService.findRolesNeeded(project));
-        System.out.println("name: " + project.getName());
-        System.out.println("roles: " + project.getRolesNeeded());
-        System.out.println("/////////////////////////////////////");
         projectService.save(project);
         return "redirect:/projects";
     }
-
-
-
-//    @RequestMapping
-//    public String updateProject() {
-//        return null;
-//    }
-//
-//    public String deleteProject() {
-//        return null;
-//    }
-//
-//    @RequestMapping("/projects/{id}/collaborators")
-//    public String formEditCollaborators() {
-//        return null;
-//    }
-//
-//    public String updateCollaborators() {
-//        return null;
-//    }
 
 }
