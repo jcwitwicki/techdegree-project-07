@@ -1,5 +1,6 @@
 package com.teamtreehouse.instateam.web.controller;
 
+import com.teamtreehouse.instateam.model.Collaborator;
 import com.teamtreehouse.instateam.model.Project;
 import com.teamtreehouse.instateam.model.Role;
 import com.teamtreehouse.instateam.service.CollaboratorService;
@@ -15,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class ProjectController {
@@ -41,8 +44,8 @@ public class ProjectController {
         if (!model.containsAttribute("project")) {
             model.addAttribute("project", projectService.findById(id));
         }
-        List<Role> rolesNeeded = projectService.findRolesNeeded(projectService.findById(id));
-        model.addAttribute("rolesNeeded", rolesNeeded);
+        Project selectedProject = projectService.findById(id);
+        model.addAttribute("map", getMapRoleCollaborator(selectedProject));
         return "/project/details";
     }
 
@@ -60,7 +63,6 @@ public class ProjectController {
 
     @RequestMapping(value = "/projects", method = RequestMethod.POST)
     public String addProject( Project project, BindingResult result, RedirectAttributes redirectAttributes) {
-
 //        if (result.hasErrors()) {
 //            redirectAttributes
 //                    .addFlashAttribute("org.springframework.validation.BindingResult.project", result);
@@ -84,7 +86,7 @@ public class ProjectController {
     }
 
     @RequestMapping(value = "/projects/{id}/edit", method = RequestMethod.POST)
-    public String updateProject( Project project, BindingResult result, RedirectAttributes redirectAttributes) {
+    public String updateProject(Project project, BindingResult result, RedirectAttributes redirectAttributes) {
         //        if (result.hasErrors()) {
 //            redirectAttributes
 //                    .addFlashAttribute("org.springframework.validation.BindingResult.project", result);
@@ -92,7 +94,57 @@ public class ProjectController {
 //            return "redirect:/projects/new";
 //        }
         projectService.save(project);
-        return "redirect:/projects";
+        return "redirect:/projects/{id}";
     }
+
+    @RequestMapping("/projects/{id}/collaborators")
+    public String formEditCollaborators(@PathVariable Long id, Model model) {
+        Project project = projectService.findById(id);
+        if (!model.containsAttribute("project")) {
+            model.addAttribute("project", project);
+        }
+        model.addAttribute("collaborators", collaboratorService.findAll());
+        model.addAttribute("map", getMapRoleCollaborator(project));
+        model.addAttribute("rolesNeeded", project.getRolesNeeded());
+        model.addAttribute("action", String.format("/projects/%s/collaborators", id));
+
+        return "/project/project_collaborators";
+    }
+
+    @RequestMapping(value = "/projects/{id}/collaborators", method = RequestMethod.POST)
+    public String updateCollaborators(@PathVariable Long id, Project project, BindingResult result, RedirectAttributes redirectAttributes) {
+        //        if (result.hasErrors()) {
+//            redirectAttributes
+//                    .addFlashAttribute("org.springframework.validation.BindingResult.project", result);
+//            redirectAttributes.addFlashAttribute("project", project);
+//            return "redirect:/projects/new";
+//        }
+        Project selectedProject = projectService.findById(id);
+        selectedProject.setCollaborators(project.getCollaborators());
+        projectService.save(selectedProject);
+        return "redirect:/projects/{id}";
+    }
+
+    private Map<Role,Collaborator> getMapRoleCollaborator(Project project) {
+        Map<Role, Collaborator> mapRoleCollaborator = new LinkedHashMap<>();
+        List<Role> rolesNeeded = projectService.findRolesNeeded(project);
+        List<Collaborator> collaborators  = projectService.findCollaborators(project);
+
+        for (int i=0;i<rolesNeeded.size();i++) {
+
+            if (collaborators.size() < rolesNeeded.size()) {
+                Collaborator unassignedCollaborator = new Collaborator();
+                unassignedCollaborator.setName("unassigned");
+                int diff = rolesNeeded.size() - collaborators.size();
+                int point = collaborators.size();
+                for(int j=point;j<diff;j++) {
+                    collaborators.add(j,unassignedCollaborator);
+                }
+            }
+            mapRoleCollaborator.put(rolesNeeded.get(i),collaborators.get(i));
+        }
+        return mapRoleCollaborator;
+    }
+
 
 }
