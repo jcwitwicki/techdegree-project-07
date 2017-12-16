@@ -19,7 +19,6 @@ public class Collaborator implements Comparable<Collaborator> {
 
     public Collaborator() {
     }
-
     public Long getId() {
         return id;
     }
@@ -48,5 +47,6 @@ public class Collaborator implements Comparable<Collaborator> {
     public int compareTo(Collaborator o) {
         return name.compareToIgnoreCase(o.getName());
     }
+
 
 }
