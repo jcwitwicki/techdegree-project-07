@@ -1,5 +1,6 @@
 package com.teamtreehouse.instateam.service;
 
+import com.teamtreehouse.instateam.model.Collaborator;
 import com.teamtreehouse.instateam.model.Project;
 import com.teamtreehouse.instateam.model.Role;
 
@@ -12,4 +13,5 @@ public interface ProjectService {
     List<Project> findAll();
     Project findById(Long id);
     List<Role> findRolesNeeded(Project project);
+    List<Collaborator> findCollaborators(Project project);
 }
