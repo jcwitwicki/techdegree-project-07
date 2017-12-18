@@ -16,7 +16,6 @@
                 <h3>Roles &amp; Collaborators</h3>
                 <div>
                     <ul class="list-item">
-                        <!--<div th:each="role : ${project.rolesNeeded}">-->
                         <div th:each="entry : ${map}">
                             <li>
                                 <span class="primary" th:text="${entry.key.name}"></span>
