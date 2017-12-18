@@ -17,8 +17,14 @@ public class Collaborator implements Comparable<Collaborator> {
     @ManyToOne
     private Role role;
 
-    public Collaborator() {
+    public Collaborator() {}
+
+    public Collaborator(Long id, String name, Role role) {
+        this.id = id;
+        this.name = name;
+        this.role = role;
     }
+
     public Long getId() {
         return id;
     }
