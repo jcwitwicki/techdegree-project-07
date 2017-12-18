@@ -61,20 +61,4 @@ public class CollaboratorController {
         return "redirect:/collaborators";
     }
 
-//    public List<Collaborator> getValidCollaborators(List<Collaborator> collaborators) {
-//        System.out.println("////////////");
-//        System.out.println(collaborators);
-//        System.out.println("////////////");
-//        for (int i=0;i<collaborators.size();i++) {
-//            if(collaborators.get(i).getName().equals("unassigned")) {
-//                collaborators.remove(i);
-//                i--;
-//            }
-//        }
-//        System.out.println("////////////");
-//        System.out.println(collaborators.toString());
-//        System.out.println("////////////");
-//        return collaborators;
-//    }
-
 }

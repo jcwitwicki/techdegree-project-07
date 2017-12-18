@@ -32,8 +32,9 @@ public class ProjectController {
     @Autowired
     private RoleService roleService;
 
-    @RequestMapping({"/","/projects"})
+    @RequestMapping({"/", "/projects"})
     public String listProjects(Model model) {
+        initiateCollaborator();
         List<Project> projects = projectService.findAll();
         model.addAttribute("projects", projects);
         return "project/projects";
@@ -62,7 +63,7 @@ public class ProjectController {
     }
 
     @RequestMapping(value = "/projects", method = RequestMethod.POST)
-    public String addProject( Project project, BindingResult result, RedirectAttributes redirectAttributes) {
+    public String addProject(Project project, BindingResult result, RedirectAttributes redirectAttributes) {
 //        if (result.hasErrors()) {
 //            redirectAttributes
 //                    .addFlashAttribute("org.springframework.validation.BindingResult.project", result);
@@ -125,26 +126,37 @@ public class ProjectController {
         return "redirect:/projects/{id}";
     }
 
-    private Map<Role,Collaborator> getMapRoleCollaborator(Project project) {
+    private Map<Role, Collaborator> getMapRoleCollaborator(Project project) {
         Map<Role, Collaborator> mapRoleCollaborator = new LinkedHashMap<>();
         List<Role> rolesNeeded = projectService.findRolesNeeded(project);
-        List<Collaborator> collaborators  = projectService.findCollaborators(project);
+        List<Collaborator> collaborators = projectService.findCollaborators(project);
 
-        for (int i=0;i<rolesNeeded.size();i++) {
+        for (int i = 0; i < rolesNeeded.size(); i++) {
 
             if (collaborators.size() < rolesNeeded.size()) {
-                Collaborator unassignedCollaborator = new Collaborator();
-                unassignedCollaborator.setName("unassigned");
-                int diff = rolesNeeded.size() - collaborators.size();
-                int point = collaborators.size();
-                for(int j=point;j<diff;j++) {
-                    collaborators.add(j,unassignedCollaborator);
-                }
+                Collaborator unassignedCollaborator = collaboratorService.findById(1L);
+                collaborators.add(i,unassignedCollaborator);
             }
-            mapRoleCollaborator.put(rolesNeeded.get(i),collaborators.get(i));
+            mapRoleCollaborator.put(rolesNeeded.get(i), collaborators.get(i));
         }
         return mapRoleCollaborator;
     }
 
+    private void initiateCollaborator() {
+        List<Collaborator> collaborators  = collaboratorService.findAll();
+
+        if(collaborators.isEmpty()) {
+            Role unassignedRole = new Role();
+            unassignedRole.setName("-Unassigned-");
+            roleService.save(unassignedRole);
+
+            Collaborator unassignedCollaborator = new Collaborator();
+            unassignedCollaborator.setName("-Unassigned-");
+
+            unassignedCollaborator.setRole(unassignedRole);
+            collaboratorService.save(unassignedCollaborator);
+        }
+
+    }
 
 }
