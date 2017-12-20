@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,7 +36,6 @@ public class ProjectController {
 
     @RequestMapping({"/", "/projects"})
     public String listProjects(Model model) {
-        initiateCollaborator();
         List<Project> projects = projectService.findAll();
         model.addAttribute("projects", projects);
         return "project/projects";
@@ -59,17 +60,17 @@ public class ProjectController {
         model.addAttribute("statuses", Status.values());
         model.addAttribute("action", "/projects");
         model.addAttribute("submit", "Save");
+        model.addAttribute("cancel", "/projects");
         return "project/form";
     }
 
     @RequestMapping(value = "/projects", method = RequestMethod.POST)
-    public String addProject(Project project, BindingResult result, RedirectAttributes redirectAttributes) {
-//        if (result.hasErrors()) {
-//            redirectAttributes
-//                    .addFlashAttribute("org.springframework.validation.BindingResult.project", result);
-//            redirectAttributes.addFlashAttribute("project", project);
-//            return "redirect:/projects/new";
-//        }
+    public String addProject(@Valid Project project, BindingResult result, RedirectAttributes redirectAttributes) {
+        if (result.hasErrors()) {
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.project", result);
+            redirectAttributes.addFlashAttribute("project", project);
+            return "redirect:/projects/new";
+        }
         projectService.save(project);
         return "redirect:/projects";
     }
@@ -79,21 +80,28 @@ public class ProjectController {
         if (!model.containsAttribute("project")) {
             model.addAttribute("project", projectService.findById(id));
         }
-        model.addAttribute("roles", roleService.findAll());
+//        System.out.println("///////////////");
+//        System.out.println(roleService.findAll().toString());
+//        System.out.println("///////////////");
+//        System.out.println(projectService.findRolesNeeded(projectService.findById(id)));
+//        System.out.println("///////////////");
+//        System.out.println(applySelection(projectService.findById(id)).toString());
+//        System.out.println("///////////////");
+        model.addAttribute("roles", applySelection(projectService.findById(id)));
         model.addAttribute("statuses", Status.values());
         model.addAttribute("action", String.format("/projects/%s/edit", id));
         model.addAttribute("submit", "Update");
+        model.addAttribute("cancel", String.format("/projects/%s", id));
         return "/project/form";
     }
 
     @RequestMapping(value = "/projects/{id}/edit", method = RequestMethod.POST)
-    public String updateProject(Project project, BindingResult result, RedirectAttributes redirectAttributes) {
-        //        if (result.hasErrors()) {
-//            redirectAttributes
-//                    .addFlashAttribute("org.springframework.validation.BindingResult.project", result);
-//            redirectAttributes.addFlashAttribute("project", project);
-//            return "redirect:/projects/new";
-//        }
+    public String updateProject(@Valid Project project, BindingResult result, RedirectAttributes redirectAttributes) {
+        if (result.hasErrors()) {
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.project", result);
+            redirectAttributes.addFlashAttribute("project", project);
+            return "redirect:/projects/id/edit";
+        }
         projectService.save(project);
         return "redirect:/projects/{id}";
     }
@@ -101,6 +109,7 @@ public class ProjectController {
     @RequestMapping("/projects/{id}/collaborators")
     public String formEditCollaborators(@PathVariable Long id, Model model) {
         Project project = projectService.findById(id);
+
         if (!model.containsAttribute("project")) {
             model.addAttribute("project", project);
         }
@@ -108,18 +117,13 @@ public class ProjectController {
         model.addAttribute("map", getMapRoleCollaborator(project));
         model.addAttribute("rolesNeeded", project.getRolesNeeded());
         model.addAttribute("action", String.format("/projects/%s/collaborators", id));
+        model.addAttribute("cancel", String.format("/projects/%s", id));
 
         return "/project/project_collaborators";
     }
 
     @RequestMapping(value = "/projects/{id}/collaborators", method = RequestMethod.POST)
     public String updateCollaborators(@PathVariable Long id, Project project, BindingResult result, RedirectAttributes redirectAttributes) {
-        //        if (result.hasErrors()) {
-//            redirectAttributes
-//                    .addFlashAttribute("org.springframework.validation.BindingResult.project", result);
-//            redirectAttributes.addFlashAttribute("project", project);
-//            return "redirect:/projects/new";
-//        }
         Project selectedProject = projectService.findById(id);
         selectedProject.setCollaborators(project.getCollaborators());
         projectService.save(selectedProject);
@@ -142,21 +146,14 @@ public class ProjectController {
         return mapRoleCollaborator;
     }
 
-    private void initiateCollaborator() {
-        List<Collaborator> collaborators  = collaboratorService.findAll();
+    private List<Role> applySelection(Project project) {
+        List<Role> roles = roleService.findAll();
+        List<Role> rolesNeeded = projectService.findRolesNeeded(project);
+        List<Role> rolesOptimized = new ArrayList<>();
 
-        if(collaborators.isEmpty()) {
-            Role unassignedRole = new Role();
-            unassignedRole.setName("-Unassigned-");
-            roleService.save(unassignedRole);
-
-            Collaborator unassignedCollaborator = new Collaborator();
-            unassignedCollaborator.setName("-Unassigned-");
-
-            unassignedCollaborator.setRole(unassignedRole);
-            collaboratorService.save(unassignedCollaborator);
+        for (Role role : roles) {
+            role.setSelected(true);
         }
-
+        return roles;
     }
-
 }

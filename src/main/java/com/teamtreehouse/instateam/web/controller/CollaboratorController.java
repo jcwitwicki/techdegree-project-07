@@ -3,6 +3,7 @@ package com.teamtreehouse.instateam.web.controller;
 import com.teamtreehouse.instateam.model.Collaborator;
 import com.teamtreehouse.instateam.service.CollaboratorService;
 import com.teamtreehouse.instateam.service.RoleService;
+import com.teamtreehouse.instateam.web.FlashMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -47,16 +48,24 @@ public class CollaboratorController {
 
     @RequestMapping(value = "/collaborators", method = RequestMethod.POST)
     public String addCollaborator (@Valid Collaborator collaborator, BindingResult result, RedirectAttributes redirectAttributes) {
-//        if (result.hasErrors()) {
-//            redirectAttributes.addFlashAttribute("collaborator", collaborator);
-//            return "redirect:/collaborators";
-//        }
+        if (result.hasErrors()) {
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.collaborator", result);
+            redirectAttributes.addFlashAttribute("flash", new FlashMessage("Please try again!", FlashMessage.Status.FAILURE));
+            redirectAttributes.addFlashAttribute("collaborator", collaborator);
+            return "redirect:/collaborators";
+        }
         collaboratorService.save(collaborator);
+        redirectAttributes.addFlashAttribute("flash", new FlashMessage("Please try again!", FlashMessage.Status.SUCCESS));
         return "redirect:/collaborators";
     }
 
     @RequestMapping(value = "/collaborators/{id}", method = RequestMethod.POST)
-    public String updateCollaborator (Collaborator collaborator) {
+    public String updateCollaborator (@Valid Collaborator collaborator, BindingResult result, RedirectAttributes redirectAttributes) {
+        if (result.hasErrors()) {
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.collaborator", result);
+            redirectAttributes.addFlashAttribute("collaborator", collaborator);
+            return "redirect:/collaborators/{id}";
+        }
         collaboratorService.save(collaborator);
         return "redirect:/collaborators";
     }

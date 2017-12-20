@@ -1,7 +1,9 @@
 package com.teamtreehouse.instateam.web.controller;
 
 import com.teamtreehouse.instateam.model.Role;
+import com.teamtreehouse.instateam.service.CollaboratorService;
 import com.teamtreehouse.instateam.service.RoleService;
+import com.teamtreehouse.instateam.web.FlashMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +22,9 @@ public class RoleController {
     @Autowired
     private RoleService roleService;
 
+    @Autowired
+    private CollaboratorService collaboratorService;
+
     @RequestMapping("/roles")
     public String listRoles(Model model) {
         List<Role> roles = roleService.findAll();
@@ -32,12 +37,14 @@ public class RoleController {
 
     @RequestMapping(value = "/roles", method = RequestMethod.POST)
     public String addRole(@Valid Role role, BindingResult result, RedirectAttributes redirectAttributes) {
-//        if (result.hasErrors()) {
-////            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.category", result);
-//            redirectAttributes.addFlashAttribute("role", role);
-//            return "redirect:/roles";
-//        }
+        if (result.hasErrors()) {
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.role", result);
+            redirectAttributes.addFlashAttribute("flash", new FlashMessage("Please try again!", FlashMessage.Status.FAILURE));
+            redirectAttributes.addFlashAttribute("role", role);
+            return "redirect:/roles";
+        }
         roleService.save(role);
+
         return "redirect:/roles";
     }
 
@@ -51,11 +58,17 @@ public class RoleController {
     }
 
     @RequestMapping(value = "/roles/{id}", method = RequestMethod.POST)
-    public String updateRole (Role role) {
+    public String updateRole (@Valid Role role, BindingResult result, RedirectAttributes redirectAttributes) {
+        if (result.hasErrors()) {
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.role", result);
+            redirectAttributes.addFlashAttribute("flash", new FlashMessage("Please try again!", FlashMessage.Status.FAILURE));
+            redirectAttributes.addFlashAttribute("role", role);
+            return "redirect:/roles/{id}";
+        }
         roleService.save(role);
+        redirectAttributes.addFlashAttribute("flash", new FlashMessage("Role successfully updated!", FlashMessage.Status.SUCCESS));
         return "redirect:/roles";
     }
-
 }
 
 
