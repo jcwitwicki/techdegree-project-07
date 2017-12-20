@@ -9,8 +9,6 @@
                 <form th:action="@{${action}}" method="post" th:object="${project}" >
                     <input type="hidden" th:field="*{id}"/>
                     <label>Edit Collaborators: Website Project</label>
-                    <!--<ul class="checkbox-list" th:each="role : *{rolesNeeded}">-->
-                        <!--<li><span class="primary" th:text="${role.name}"></span>-->
                             <ul class="checkbox-list" th:each="entry : ${map}">
                                 <li><span class="primary" th:text="${entry.key.name}"></span>
                             <div class="custom-select">
@@ -31,7 +29,7 @@
                     </ul>
                     <div class="actions">
                         <input type="submit" value="Save" class="button"/>
-                        <a href="#" class="button button-secondary">Cancel</a>
+                        <a th:href="@{${cancel}}" class="button button-secondary">Cancel</a>
                     </div>
                 </form>
             </div>

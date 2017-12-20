@@ -18,7 +18,7 @@
                         </li>
                         </div>
                     </ul>
-                    <div class="actions add-new-collaborator">
+                    <div class="actions add-new-collaborator" th:classappend="${#fields.hasErrors('name')}? 'error' : ''">
                         <input type="hidden" th:field="*{id}"/>
                         <input type="text" th:field="*{name}" placeholder="Name..."/>
                         <div class="custom-select">
@@ -33,6 +33,7 @@
                         </div>
                         <button type="submit" class="button">Add</button>
                     </div>
+                    <div class="error-message" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
                 </form>
             </div>
         </section>
