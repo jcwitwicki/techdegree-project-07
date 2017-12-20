@@ -16,10 +16,10 @@
                 <h3>Roles &amp; Collaborators</h3>
                 <div>
                     <ul class="list-item">
-                        <div th:each="role : ${project.rolesNeeded}">
+                        <div th:each="entry : ${map}">
                             <li>
-                                <span class="primary" th:text="${role.name}"></span>
-                                <span class="secondary">Michael Pemulis</span>
+                                <span class="primary" th:text="${entry.key.name}"></span>
+                                <span class="secondary" th:text="${entry.value.name}"></span>
                             </li>
                         </div>
                     </ul>

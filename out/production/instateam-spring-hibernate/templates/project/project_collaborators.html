@@ -7,19 +7,23 @@
         <section>
             <div class="container wrapper">
                 <form th:action="@{${action}}" method="post" th:object="${project}" >
+                    <input type="hidden" th:field="*{id}"/>
                     <label>Edit Collaborators: Website Project</label>
-                    <!--<ul class="checkbox-list" th:each="role : ${project.rolesNeeded}">-->
-                    <ul class="checkbox-list" th:each="role : ${rolesNeeded}">
-                        <li><span class="primary" th:text="${role.id}"></span>
+                    <!--<ul class="checkbox-list" th:each="role : *{rolesNeeded}">-->
+                        <!--<li><span class="primary" th:text="${role.name}"></span>-->
+                            <ul class="checkbox-list" th:each="entry : ${map}">
+                                <li><span class="primary" th:text="${entry.key.name}"></span>
                             <div class="custom-select">
                                 <span class="dropdown-arrow"></span>
                                 <select th:field="*{collaborators}">
-                                    <!--th:field="*{map[__${role.value}__]}"-->
-                                    <!--<option th:text="${role.value}" ></option>-->
+                                    <option th:text="${entry.value.name}"
+                                            th:value="${entry.value.id}">
+                                    </option>
                                     <option
-                                        th:each="collab: ${collabs}"
-                                        th:value="${collab.id}"
-                                        th:text="${collab.name}">
+                                            th:if="${!collaborator.name.equals(entry.value.name)}"
+                                            th:each="collaborator: ${collaborators}"
+                                            th:value="${collaborator.id}"
+                                            th:text="${collaborator.name}">
                                     </option>
                                 </select>
                             </div>
