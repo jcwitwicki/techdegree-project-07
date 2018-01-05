@@ -6,6 +6,7 @@ import com.teamtreehouse.instateam.model.Role;
 import com.teamtreehouse.instateam.service.CollaboratorService;
 import com.teamtreehouse.instateam.service.ProjectService;
 import com.teamtreehouse.instateam.service.RoleService;
+import com.teamtreehouse.instateam.web.FlashMessage;
 import com.teamtreehouse.instateam.web.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -56,6 +57,7 @@ public class ProjectController {
         if (!model.containsAttribute("project")) {
             model.addAttribute("project", new Project());
         }
+        model.addAttribute("head","New Project");
         model.addAttribute("roles", roleService.findAll());
         model.addAttribute("statuses", Status.values());
         model.addAttribute("action", "/projects");
@@ -68,10 +70,12 @@ public class ProjectController {
     public String addProject(@Valid Project project, BindingResult result, RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.project", result);
+            redirectAttributes.addFlashAttribute("flash", new FlashMessage("Please try again", FlashMessage.Status.FAILURE));
             redirectAttributes.addFlashAttribute("project", project);
             return "redirect:/projects/new";
         }
         projectService.save(project);
+        redirectAttributes.addFlashAttribute("flash", new FlashMessage("Project successfully added", FlashMessage.Status.SUCCESS));
         return "redirect:/projects";
     }
 
@@ -87,6 +91,7 @@ public class ProjectController {
 //        System.out.println("///////////////");
 //        System.out.println(applySelection(projectService.findById(id)).toString());
 //        System.out.println("///////////////");
+        model.addAttribute("head",String.format("%s", projectService.findById(id).getName()));
         model.addAttribute("roles", applySelection(projectService.findById(id)));
         model.addAttribute("statuses", Status.values());
         model.addAttribute("action", String.format("/projects/%s/edit", id));
@@ -99,10 +104,12 @@ public class ProjectController {
     public String updateProject(@Valid Project project, BindingResult result, RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.project", result);
+            redirectAttributes.addFlashAttribute("flash", new FlashMessage("Please try again", FlashMessage.Status.FAILURE));
             redirectAttributes.addFlashAttribute("project", project);
-            return "redirect:/projects/id/edit";
+            return "redirect:/projects/{id}/edit";
         }
         projectService.save(project);
+        redirectAttributes.addFlashAttribute("flash", new FlashMessage("Project successfully updated", FlashMessage.Status.SUCCESS));
         return "redirect:/projects/{id}";
     }
 

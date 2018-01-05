@@ -39,12 +39,12 @@ public class RoleController {
     public String addRole(@Valid Role role, BindingResult result, RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.role", result);
-            redirectAttributes.addFlashAttribute("flash", new FlashMessage("Please try again!", FlashMessage.Status.FAILURE));
+            redirectAttributes.addFlashAttribute("flash", new FlashMessage("Please try again", FlashMessage.Status.FAILURE));
             redirectAttributes.addFlashAttribute("role", role);
             return "redirect:/roles";
         }
         roleService.save(role);
-
+        redirectAttributes.addFlashAttribute("flash", new FlashMessage("Role successfully added", FlashMessage.Status.SUCCESS));
         return "redirect:/roles";
     }
 
@@ -61,12 +61,12 @@ public class RoleController {
     public String updateRole (@Valid Role role, BindingResult result, RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.role", result);
-            redirectAttributes.addFlashAttribute("flash", new FlashMessage("Please try again!", FlashMessage.Status.FAILURE));
+            redirectAttributes.addFlashAttribute("flash", new FlashMessage("Please try again", FlashMessage.Status.FAILURE));
             redirectAttributes.addFlashAttribute("role", role);
             return "redirect:/roles/{id}";
         }
         roleService.save(role);
-        redirectAttributes.addFlashAttribute("flash", new FlashMessage("Role successfully updated!", FlashMessage.Status.SUCCESS));
+        redirectAttributes.addFlashAttribute("flash", new FlashMessage("Role successfully updated", FlashMessage.Status.SUCCESS));
         return "redirect:/roles";
     }
 }

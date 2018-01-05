@@ -50,12 +50,12 @@ public class CollaboratorController {
     public String addCollaborator (@Valid Collaborator collaborator, BindingResult result, RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.collaborator", result);
-            redirectAttributes.addFlashAttribute("flash", new FlashMessage("Please try again!", FlashMessage.Status.FAILURE));
+            redirectAttributes.addFlashAttribute("flash", new FlashMessage("Please try again", FlashMessage.Status.FAILURE));
             redirectAttributes.addFlashAttribute("collaborator", collaborator);
             return "redirect:/collaborators";
         }
         collaboratorService.save(collaborator);
-        redirectAttributes.addFlashAttribute("flash", new FlashMessage("Please try again!", FlashMessage.Status.SUCCESS));
+        redirectAttributes.addFlashAttribute("flash", new FlashMessage("Collaborator successfully added", FlashMessage.Status.SUCCESS));
         return "redirect:/collaborators";
     }
 
@@ -63,10 +63,12 @@ public class CollaboratorController {
     public String updateCollaborator (@Valid Collaborator collaborator, BindingResult result, RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.collaborator", result);
+            redirectAttributes.addFlashAttribute("flash", new FlashMessage("Please try again", FlashMessage.Status.FAILURE));
             redirectAttributes.addFlashAttribute("collaborator", collaborator);
             return "redirect:/collaborators/{id}";
         }
         collaboratorService.save(collaborator);
+        redirectAttributes.addFlashAttribute("flash", new FlashMessage("Collaborator successfully updated", FlashMessage.Status.SUCCESS));
         return "redirect:/collaborators";
     }
 
