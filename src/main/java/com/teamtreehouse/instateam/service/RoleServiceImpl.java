@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RoleServiceImpl implements RoleService {
@@ -32,5 +33,13 @@ public class RoleServiceImpl implements RoleService {
     public Role findById(Long id) {
         return roleDao.findById(id);
     }
+
+    @Override
+    public Optional<Role> findByName(String name) {
+        return findAll().stream()
+                .filter(role -> role.getName().equals(name))
+                .findFirst();
+    }
+
 
 }
