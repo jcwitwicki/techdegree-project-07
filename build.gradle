@@ -25,6 +25,6 @@ dependencies {
     compile 'org.apache.tomcat:tomcat-dbcp:8.0.32'
     compile 'com.h2database:h2:1.4.191'
     compile group: 'org.springframework', name: 'spring-aspects', version: '3.1.2.RELEASE'
-    compile 'org.hibernate:hibernate-validator-osgi-karaf-features:6.0.7.Final'
+    compile group: 'org.hibernate', name: 'hibernate-validator', version: '5.4.1.Final'
     compile 'javax.validation:validation-api:2.0.1.Final'
 }
