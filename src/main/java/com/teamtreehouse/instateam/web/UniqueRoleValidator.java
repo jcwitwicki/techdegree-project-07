@@ -2,16 +2,19 @@ package com.teamtreehouse.instateam.web;
 
 import com.teamtreehouse.instateam.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-@Component
 public class UniqueRoleValidator implements ConstraintValidator<UniqueRoleConstraint, String> {
 
     @Autowired
     private RoleService roleService;
+
+    @Autowired
+    public UniqueRoleValidator(RoleService roleService) {
+        this.roleService = roleService;
+    }
 
     @Override
     public void initialize(UniqueRoleConstraint uniqueRole) {
@@ -19,8 +22,7 @@ public class UniqueRoleValidator implements ConstraintValidator<UniqueRoleConstr
 
     @Override
     public boolean isValid(String name, ConstraintValidatorContext context) {
-        return !roleService.findByName(name).isPresent();
-//          return name != null;
+        return name != null && !roleService.findByName(name).isPresent();
     }
 
 }
