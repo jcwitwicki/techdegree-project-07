@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="Gradle: org.hibernate:hibernate-validator-osgi-karaf-features:6.0.7.Final">
-    <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.hibernate/hibernate-validator-osgi-karaf-features/6.0.7.Final/a8d401528fee567378b557f9e36cea532e2fbe79/hibernate-validator-osgi-karaf-features-6.0.7.Final.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>
