@@ -16,7 +16,6 @@
 
         <property name="javax.persistence.validation.mode">none</property>
 
-
     </session-factory>
 
 </hibernate-configuration>

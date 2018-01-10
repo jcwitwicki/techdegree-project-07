@@ -11,7 +11,7 @@
             <div class="project">
                 <h2 th:text="${project.name}"></h2>
                 <p th:text="${project.description}"></p>
-                <span class="tag active">Active</span>
+                <span class="tag" th:text="${project.status}" th:style="|background-color:${project.colorStatus}|"></span>
             </div>
             <div class="roles-collaborators">
                 <h3>Roles &amp; Collaborators</h3>
