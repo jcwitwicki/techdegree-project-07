@@ -1,5 +1,8 @@
 package com.teamtreehouse.instateam.model;
 
+import com.teamtreehouse.instateam.validation.UniqueCollaboratorConstraint;
+import com.teamtreehouse.instateam.validation.CollaboratorUpdateConstraint;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -11,8 +14,9 @@ public class Collaborator implements Comparable<Collaborator> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
-    @Size(min = 2, max = 20)
+    @NotNull(groups = {UniqueCollaboratorConstraint.class, CollaboratorUpdateConstraint.class})
+    @Size(min = 2, max = 20, groups = {UniqueCollaboratorConstraint.class, CollaboratorUpdateConstraint.class})
+    @UniqueCollaboratorConstraint(groups = {UniqueCollaboratorConstraint.class})
     private String name;
 
     @ManyToOne

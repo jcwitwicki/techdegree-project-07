@@ -1,7 +1,8 @@
 package com.teamtreehouse.instateam.model;
 
 
-import com.teamtreehouse.instateam.web.UniqueRoleConstraint;
+import com.teamtreehouse.instateam.validation.RoleUpdateConstraint;
+import com.teamtreehouse.instateam.validation.UniqueRoleConstraint;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -15,9 +16,9 @@ public class Role implements Comparable<Role> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
-    @Size(min = 1, max = 25)
-    @UniqueRoleConstraint
+    @NotNull(groups = {UniqueRoleConstraint.class, RoleUpdateConstraint.class})
+    @Size(min = 1, max = 25, groups = {UniqueRoleConstraint.class, RoleUpdateConstraint.class})
+    @UniqueRoleConstraint(groups = {UniqueRoleConstraint.class})
     private String name;
 
     @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
