@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CollaboratorServiceImpl implements CollaboratorService {
@@ -32,5 +33,12 @@ public class CollaboratorServiceImpl implements CollaboratorService {
     @Override
     public Collaborator findById(Long id) {
         return collaboratorDao.findById(id);
+    }
+
+    @Override
+    public Optional<Collaborator> findByName(String name) {
+        return findAll().stream()
+                .filter(collaborator -> collaborator.getName().equals(name))
+                .findFirst();
     }
 }

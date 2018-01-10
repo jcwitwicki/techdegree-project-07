@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProjectServiceImpl implements ProjectService {
@@ -33,6 +34,13 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public Project findById(Long id) {
         return projectDao.findById(id);
+    }
+
+    @Override
+    public Optional<Project> findByName(String name) {
+        return findAll().stream()
+                .filter(project -> project.getName().equals(name))
+                .findFirst();
     }
 
     @Override
