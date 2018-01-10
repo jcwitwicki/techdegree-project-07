@@ -6,18 +6,20 @@ import com.teamtreehouse.instateam.model.Role;
 import com.teamtreehouse.instateam.service.CollaboratorService;
 import com.teamtreehouse.instateam.service.ProjectService;
 import com.teamtreehouse.instateam.service.RoleService;
+import com.teamtreehouse.instateam.validation.ProjectUpdateConstraint;
+import com.teamtreehouse.instateam.validation.UniqueProjectConstraint;
 import com.teamtreehouse.instateam.web.FlashMessage;
 import com.teamtreehouse.instateam.web.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -67,7 +69,7 @@ public class ProjectController {
     }
 
     @RequestMapping(value = "/projects", method = RequestMethod.POST)
-    public String addProject(@Valid Project project, BindingResult result, RedirectAttributes redirectAttributes) {
+    public String addProject(@Validated(UniqueProjectConstraint.class) Project project, BindingResult result, RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.project", result);
             redirectAttributes.addFlashAttribute("flash", new FlashMessage("Please try again", FlashMessage.Status.FAILURE));
@@ -84,13 +86,6 @@ public class ProjectController {
         if (!model.containsAttribute("project")) {
             model.addAttribute("project", projectService.findById(id));
         }
-//        System.out.println("///////////////");
-//        System.out.println(roleService.findAll().toString());
-//        System.out.println("///////////////");
-//        System.out.println(projectService.findRolesNeeded(projectService.findById(id)));
-//        System.out.println("///////////////");
-//        System.out.println(applySelection(projectService.findById(id)).toString());
-//        System.out.println("///////////////");
         model.addAttribute("head",String.format("%s", projectService.findById(id).getName()));
         model.addAttribute("roles", applySelection(projectService.findById(id)));
         model.addAttribute("statuses", Status.values());
@@ -101,7 +96,7 @@ public class ProjectController {
     }
 
     @RequestMapping(value = "/projects/{id}/edit", method = RequestMethod.POST)
-    public String updateProject(@Valid Project project, BindingResult result, RedirectAttributes redirectAttributes) {
+    public String updateProject(@Validated(ProjectUpdateConstraint.class) Project project, BindingResult result, RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.project", result);
             redirectAttributes.addFlashAttribute("flash", new FlashMessage("Please try again", FlashMessage.Status.FAILURE));
